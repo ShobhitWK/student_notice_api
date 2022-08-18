@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  
+
+  root "home/home#front"
+
   resources :roles, controller: "users/roles"
   resources :notices, controller: "notice/notices"
 

@@ -44,6 +44,7 @@ class Users::UsersController < ApplicationController
     params.require(:user).permit(:role_id)
   end
 
+  # This method will authorize the user for show action
   def able_to_show
     current_role = current_user.role.name
     user_role = @user.role.name
