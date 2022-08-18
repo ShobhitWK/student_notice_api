@@ -1,6 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
-  skip_load_and_authorize_resource
 
   private
 
@@ -8,7 +7,7 @@ class Users::SessionsController < Devise::SessionsController
     if current_user
       success_response("Logged in Sucessfully")
     else
-      faliure_response("Login to view this page")
+      faliure_response("Login failed!")
     end
   end
 

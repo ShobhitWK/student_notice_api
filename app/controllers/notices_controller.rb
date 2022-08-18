@@ -1,4 +1,6 @@
 class NoticesController < ApplicationController
+
+  load_and_authorize_resource
   before_action :set_notice, only: %i[ show update destroy ]
 
   # GET /notices
@@ -16,7 +18,7 @@ class NoticesController < ApplicationController
   # POST /notices.json
   def create
     @notice = Notice.new(notice_params)
-
+    @notice.user = current_user
     if @notice.save
       render :show, status: :created, location: @notice
     else
@@ -41,6 +43,13 @@ class NoticesController < ApplicationController
   end
 
   private
+    # # To check if the user has perms to view this page or not
+    # def check_if_logged_in
+    #   unless current_user
+    #     faliure_response("Login first to perform this action!")
+    #   end
+    # end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_notice
       @notice = Notice.find(params[:id])
