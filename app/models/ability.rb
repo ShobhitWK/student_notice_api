@@ -12,11 +12,13 @@ class Ability
       end
 
       if user.role.name == "teacher"
-        can :create, Notice
+        can %i[create read], Notice
+        can %[read], User
       end
 
       if user.role.name == "student"
         can :read, Notice
+        can :read, User
       end
 
     end

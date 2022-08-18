@@ -34,4 +34,20 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def show_all_notices
+    notices = []
+    @notices.each do |notice|
+      notices << {
+        id: notice.id,
+        title: notice.title,
+        description: notice.description,
+        user: notice.user.name,
+        user_role: notice.user.role.name,
+        created_at: notice.created_at,
+        updated_at: notice.updated_at
+      }
+    end
+    return notices
+  end
+
 end
