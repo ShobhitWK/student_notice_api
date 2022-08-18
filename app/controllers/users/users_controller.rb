@@ -11,28 +11,28 @@ class Users::UsersController < ApplicationController
 
   def show
     return render json: { user: user_info } if able_to_show
-    error_message 'This User Not Authorised !'
+    handle_error 'This User Not Authorised !'
   end
 
   def update
     if @user.update(user_params)
       render json: { message: 'user updated succesfully', user: user_info }
     else
-      error_message @user.errors.messages
+      handle_error @user.errors.messages
     end
   end
 
   def destroy
     if @user.destroy
-      render json: { message:'user deleted succesfully' }, status: :created
+      success_response("User deleted succesfully.")
     else
-      render json: { message: 'Error Occured! User is not deleted' }, status: :not_modified
+      faliure_response("Error Occured! User is not deleted")
     end
   end
 
   def update_role
     if @user.update(role_params)
-      render json: { message: 'Role updated successfully' }
+      success_response('Role updated successfully')
     else
       render json: { message: 'nothing happened' }
     end

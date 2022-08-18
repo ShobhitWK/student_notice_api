@@ -12,7 +12,7 @@ class Ability
       end
 
       if user.role.name == "teacher"
-        can %i[create read], Notice
+        can %i[create read update destroy], Notice, user: user
         can %[read], User
       end
 

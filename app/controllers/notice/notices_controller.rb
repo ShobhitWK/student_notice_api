@@ -4,7 +4,8 @@ class Notice::NoticesController < ApplicationController
   before_action :set_notice, only: %i[ show update destroy ]
 
   def index
-    @notices = Notice.all
+    @notices = Notice.includes(user: [:role]).all if user_admin or user_student
+    @notices = Notice.includes(user: [:role]).where(user: current_user.id) if user_teacher
     render json: show_all_notices
   end
 
@@ -16,22 +17,26 @@ class Notice::NoticesController < ApplicationController
     @notice = Notice.new(notice_params)
     @notice.user = current_user
     if @notice.save
-      render :show, status: :created, location: @notice
+      render json: { message: "Notice was created sucessfully!" , notice: show_notice}
     else
-      render json: @notice.errors, status: :unprocessable_entity
+      handle_error @notice.errors
     end
   end
 
   def update
     if @notice.update(notice_params)
-      render :show, status: :ok, location: @notice
+      render json: { message: "Notice was edited sucessfully!" , notice: show_notice}, status: :ok, location: @notice
     else
-      render json: @notice.errors, status: :unprocessable_entity
+      handle_error @notice.errors
     end
   end
 
   def destroy
-    @notice.destroy
+    if @notice.destroy
+      success_response("Notice was deleted | Notice ID: #{@notice.id}")
+    else
+      faliure_response("Error Occured!, can't delete notice")
+    end
   end
 
   private

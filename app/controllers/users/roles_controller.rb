@@ -22,7 +22,7 @@ class Users::RolesController < ApplicationController
     if @role.save
       render :show, status: :created, location: @role
     else
-      render json: @role.errors, status: :unprocessable_entity
+      handle_error @role.errors
     end
   end
 
@@ -32,7 +32,7 @@ class Users::RolesController < ApplicationController
     if @role.update(role_params)
       render :show, status: :ok, location: @role
     else
-      render json: @role.errors, status: :unprocessable_entity
+      handle_error @role.errors
     end
   end
 

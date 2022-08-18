@@ -2,14 +2,16 @@ class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: { 'message' => 'User is not authorised!' }, status: 401
+    render json: { 'message' => 'User is not authorised for this action!' }, status: 401
     p exception
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: { 'message' => 'record not found!' }, status: 404
+    not_found_reponse('record not found!')
     p exception
   end
+
+  # For Optimising Code...
 
   def handle_error(message)
     render json: { 'message' => message }, status: :unprocessable_entity
@@ -23,9 +25,17 @@ class ApplicationController < ActionController::API
     render json: { 'message' => message }, status: 422
   end
 
+  def not_found_reponse(message)
+    render json: { 'message' => message }, status: 404
+  end
+
+  # DEVISE PARAMS PERMITS
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:email,:password,:role_id])
   end
+
+  # ROLES CHECK
 
   def user_admin
     current_user.role.name == "admin"
