@@ -1,4 +1,4 @@
-class NoticesController < ApplicationController
+class Notice::NoticesController < ApplicationController
 
   load_and_authorize_resource
   before_action :set_notice, only: %i[ show update destroy ]

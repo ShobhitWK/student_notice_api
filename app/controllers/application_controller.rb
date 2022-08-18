@@ -25,6 +25,18 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:email,:password,:role_id])
   end
 
+  def user_admin
+    current_user.role.name == "admin"
+  end
+
+  def user_student
+    current_user.role.name == "student"
+  end
+
+  def user_teacher
+    current_user.role.name == "teacher"
+  end
+
   private
 
   def render_404

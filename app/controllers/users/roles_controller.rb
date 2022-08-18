@@ -1,4 +1,4 @@
-class RolesController < ApplicationController
+class Users::RolesController < ApplicationController
 
   load_and_authorize_resource
   before_action :set_role, only: %i[ show update destroy ]
