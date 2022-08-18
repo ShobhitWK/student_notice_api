@@ -7,7 +7,7 @@ class Notice::NoticesController < ApplicationController
   def index
     @notices = Notice.includes(user: [:role]).all if user_admin or user_student
     @notices = Notice.includes(user: [:role]).where(user: current_user.id) if user_teacher
-    show_info show_all_notices
+    show_info({notices: show_all_notices})
   end
 
   def show
