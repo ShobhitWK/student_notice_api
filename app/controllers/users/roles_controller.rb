@@ -7,6 +7,7 @@ class Users::RolesController < ApplicationController
   # GET /roles.json
   def index
     @roles = Role.all
+    success_response @roles
   end
 
   # GET /roles/1

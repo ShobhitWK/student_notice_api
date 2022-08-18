@@ -5,9 +5,9 @@ class Users::SessionsController < Devise::SessionsController
 
   def respond_with(resource, _opts = {})
     if current_user
-      success_response("Logged in Sucessfully")
+      success_response("User Logged in Sucessfully")
     else
-      faliure_response("Login failed!")
+      faliure_response("User is not logged in.")
     end
   end
 
@@ -17,10 +17,10 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def log_out_success
-    success_response("Logged out Sucessfully")
+    success_response("User Logged out Sucessfully")
   end
 
   def log_out_failure
-    faliure_response("Logout Failed!")
+    faliure_response("User Logout Failed!")
   end
 end

@@ -10,10 +10,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    success_response("Signed Up Sucessfully.")
+    render json: { "User Created" => resource_generate(resource) }
+    # success_response("Signed Up Sucessfully.")
   end
 
   def register_failed
     faliure_response("Something went wrong.")
+  end
+
+  def resource_generate(resource)
+    {
+      id: resource.id,
+      name: resource.name,
+      role_id: resource.role_id,
+      role: resource.role.name,
+      created_at: resource.created_at,
+      updated_at: resource.updated_at
+    }
   end
 end

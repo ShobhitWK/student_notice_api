@@ -17,7 +17,7 @@ class Users::MembersController < ApplicationController
       role: current_user.role.name
     }
 
-    if current_user.role_id == 2
+    if user_admin or user_teacher
 
       data = {
         id: current_user.id,

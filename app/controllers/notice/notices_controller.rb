@@ -58,6 +58,7 @@ class Notice::NoticesController < ApplicationController
         description: @notice.description,
         user: @notice.user.name,
         user_role: @notice.user.role.name,
+        url: notice_url(@notice),
         created_at: @notice.created_at,
         updated_at: @notice.updated_at
       }
