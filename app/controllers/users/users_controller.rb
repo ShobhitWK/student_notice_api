@@ -34,7 +34,7 @@ class Users::UsersController < ApplicationController
     if @user.update(role_params)
       success_response('Role updated successfully')
     else
-      render json: { message: 'nothing happened' }
+      render json: { message: 'Role is not updated' }
     end
   end
 

@@ -15,7 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_failed
-    faliure_response("Something went wrong.")
+    handle_error(resource.errors)
   end
 
   def resource_generate(resource)

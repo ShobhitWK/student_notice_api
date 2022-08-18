@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   # For Optimising Code...
 
   def handle_error(message)
-    render json: { 'message' => message }, status: :unprocessable_entity
+    render json: { 'errors' => message }, status: :unprocessable_entity
   end
 
   def success_response(message)
@@ -58,7 +58,8 @@ class ApplicationController < ActionController::API
         id: notice.id,
         title: notice.title,
         description: notice.description,
-        user: notice.user.name,
+        user_id: notice.user.id,
+        user_name: notice.user.name,
         user_role: notice.user.role.name,
         url: notice_url(notice),
         created_at: notice.created_at,
@@ -73,7 +74,7 @@ class ApplicationController < ActionController::API
     @users.each do |user|
       users << {
         id: user.id,
-        user: user.name,
+        user_name: user.name,
         user_role: user.role.name,
         created_at: user.created_at,
         updated_at: user.updated_at
