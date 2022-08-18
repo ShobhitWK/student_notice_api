@@ -1,16 +1,17 @@
 class Notice::NoticesController < ApplicationController
 
-  load_and_authorize_resource
-  before_action :set_notice, only: %i[ show update destroy ]
+  load_and_authorize_resource # This is for configuring cancancan ability
+
+  before_action :set_notice, only: %i[ show update destroy ] # This action get called before the fuction is initiated
 
   def index
     @notices = Notice.includes(user: [:role]).all if user_admin or user_student
     @notices = Notice.includes(user: [:role]).where(user: current_user.id) if user_teacher
-    render json: show_all_notices
+    show_info show_all_notices
   end
 
   def show
-    render json: show_notice
+    show_info show_notice
   end
 
   def create
@@ -51,6 +52,7 @@ class Notice::NoticesController < ApplicationController
       params.require(:notice).permit(:title, :description, :user_id)
     end
 
+    # Method to show notices in a better format
     def show_notice
       {
         id: @notice.id,

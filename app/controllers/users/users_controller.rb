@@ -6,7 +6,7 @@ class Users::UsersController < ApplicationController
     @users = User.all if user_admin
     @users = User.where(role: 3) if user_teacher
     @users = User.where.not(role: 3) if user_student
-    render json: { users: gen_users }
+    render json: { "users" => gen_users }
   end
 
   def show
@@ -34,7 +34,7 @@ class Users::UsersController < ApplicationController
     if @user.update(role_params)
       success_response('Role updated successfully')
     else
-      render json: { message: 'Role is not updated' }
+      faliure_response('Role is not updated')
     end
   end
 

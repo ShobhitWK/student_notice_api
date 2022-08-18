@@ -1,12 +1,15 @@
 class Users::MembersController < ApplicationController
-  before_action :authenticate_user!
 
+  before_action :authenticate_user! # Without login, user cannot see his profile
+
+  # This will show current user profile -> localhost:port/profile
   def show
-    render json: current_user_data
+    show_info current_user_data
   end
 
   private
 
+  # Creating user information in json
   def current_user_data
 
     data = {
@@ -26,7 +29,7 @@ class Users::MembersController < ApplicationController
         role_id: current_user.role_id,
         role: current_user.role.name,
         notice_count: current_user.notices.length,
-        notice: gen_notices(current_user)
+        notices: gen_notices(current_user)
       }
 
     end

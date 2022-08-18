@@ -1,6 +1,9 @@
 class Notice < ApplicationRecord
+
+  # Association
   belongs_to :user
 
+  # validations for notice creation
   validates :title, presence: true,
             length: {minimum: 5, maxmimum: 105}
 

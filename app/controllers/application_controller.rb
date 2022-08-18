@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  before_action :authenticate_user! # for internal server errors, this will check whether user is logged in or not
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Errors Handling
@@ -33,6 +34,10 @@ class ApplicationController < ActionController::API
 
   def not_found_reponse(message)
     render json: { 'message' => message }, status: 404
+  end
+
+  def show_info(response)
+    render json: response, status: 200
   end
 
   # DEVISE PARAMS PERMITS

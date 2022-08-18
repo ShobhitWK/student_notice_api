@@ -1,6 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
+  # This controller will handle user sessions 
+
   private
 
   def respond_with(resource, _opts = {})
