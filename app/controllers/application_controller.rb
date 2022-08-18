@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # Errors Handling
+
   rescue_from CanCan::AccessDenied do |exception|
     render json: { 'message' => 'User is not authorised for this action!' }, status: 401
     p exception
@@ -11,10 +13,14 @@ class ApplicationController < ActionController::API
     p exception
   end
 
+  rescue_from ActionController::ParameterMissing do |e|
+    faliure_response("Wrong Parameters provided.")
+  end
+
   # For Optimising Code...
 
   def handle_error(message)
-    render json: { 'errors' => message }, status: :unprocessable_entity
+    render json: { 'errors occured' => message }, status: :unprocessable_entity
   end
 
   def success_response(message)
@@ -22,7 +28,7 @@ class ApplicationController < ActionController::API
   end
 
   def faliure_response(message)
-    render json: { 'message' => message }, status: 422
+    render json: { 'failed' => message }, status: 422
   end
 
   def not_found_reponse(message)
