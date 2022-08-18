@@ -6,11 +6,13 @@ class ApplicationController < ActionController::API
     p exception
   end
 
-  rescue_from ActionController::RoutingError, with: :render_404
-
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render json: { 'message' => 'record not found!' }, status: 404
     p exception
+  end
+
+  def handle_error(message)
+    render json: { 'message' => message }, status: :unprocessable_entity
   end
 
   def success_response(message)
@@ -39,13 +41,6 @@ class ApplicationController < ActionController::API
 
   private
 
-  def render_404
-    respond_to do |format|
-      format.html { render "#{Rails.root}/public/404.html", status: 404 }
-      format.json { render json: { status: 404, message: 'Page Not Found' } }
-    end
-  end
-
   def show_all_notices
     notices = []
     @notices.each do |notice|
@@ -60,6 +55,32 @@ class ApplicationController < ActionController::API
       }
     end
     return notices
+  end
+
+  def gen_users
+    users = []
+    @users.each do |user|
+      users << {
+        id: user.id,
+        user: user.name,
+        user_role: user.role.name,
+        created_at: user.created_at,
+        updated_at: user.updated_at
+      }
+    end
+    return users
+  end
+
+  def gen_notices(usr)
+    usr.notices do |notice|
+      {
+        id: notice.id,
+        title: notice.title,
+        description: notice.description,
+        created_at: notice.created_at,
+        updated_at: notice.updated_at
+      }
+    end
   end
 
 end

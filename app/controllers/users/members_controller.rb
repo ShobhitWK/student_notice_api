@@ -26,7 +26,7 @@ class Users::MembersController < ApplicationController
         role_id: current_user.role_id,
         role: current_user.role.name,
         notice_count: current_user.notices.length,
-        notice: gen_notices
+        notice: gen_notices(current_user)
       }
 
     end
@@ -34,15 +34,5 @@ class Users::MembersController < ApplicationController
     return data
   end
 
-  def gen_notices
-    current_user.notices do |notice|
-      {
-        id: notice.id,
-        title: notice.title,
-        description: notice.description,
-        created_at: notice.created_at,
-        updated_at: notice.updated_at
-      }
-    end
-  end
+
 end

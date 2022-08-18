@@ -7,4 +7,9 @@ Rails.application.routes.draw do
                  registrations: 'users/registrations'
              }
   get '/profile', to: 'users/members#show'
+  namespace :users do
+    patch ':id/role', to: 'users#update_role'
+    resources :roles
+    resources :users, path: '/', except: %i[create]
+  end
 end
