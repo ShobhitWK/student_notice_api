@@ -12,7 +12,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
-  config.consider_all_requests_local = true
+  config.consider_all_requests_local = false # set true if you want to print each and every error
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

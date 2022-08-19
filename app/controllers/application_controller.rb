@@ -18,10 +18,15 @@ class ApplicationController < ActionController::API
     faliure_response("Wrong Parameters provided.")
   end
 
+  def handlenotfound
+    render html: "not found"
+    render json: { 'message' => "404 Not Found!"}
+  end
+
   # For Optimising Code...
 
   def handle_error(message)
-    render json: { 'errors' => message }, status: :unprocessable_entity
+    render json: { 'error' => message }, status: :unprocessable_entity
   end
 
   def success_response(message)

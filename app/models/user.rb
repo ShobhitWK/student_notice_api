@@ -4,7 +4,7 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase}
 
   # Associations
-  has_many :notices
+  has_many :notices, dependent: :destroy
   belongs_to :role
 
   # Devise Configurations

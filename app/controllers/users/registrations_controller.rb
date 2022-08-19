@@ -35,7 +35,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         register_failed
       end
     else
-      faliure_response({Error: 'Only admins can create new users!'})
+      faliure_response({error: 'Only admins can create new users!'})
     end
   end
 
