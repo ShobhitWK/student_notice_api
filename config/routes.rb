@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  root "home/home#front"
+  # Homepage of the api
+  root "home/home#home"
 
   # This route is for handling error
   match "/404", to: "application#handlenotfound", via: :all

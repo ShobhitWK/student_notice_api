@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
   end
 
   def faliure_response(message)
-    render json: { 'failed' => message }, status: 422
+    render json: { 'message' => message }, status: 422
   end
 
   def not_found_reponse(message)
