@@ -1,12 +1,13 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
-  # This controller will handle user sessions 
+  # This controller will handle user sessions
 
   private
 
   def respond_with(resource, _opts = {})
     if current_user
+      UserMailer.welcome_email(current_user.email,current_user).deliver_later
       success_response("User Logged in Sucessfully")
     else
       faliure_response("User is not logged in.")
