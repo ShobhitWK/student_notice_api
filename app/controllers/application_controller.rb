@@ -21,7 +21,7 @@ class ApplicationController < ActionController::API
   # For Optimising Code...
 
   def handle_error(message)
-    render json: { 'errors occured' => message }, status: :unprocessable_entity
+    render json: { 'errors' => message }, status: :unprocessable_entity
   end
 
   def success_response(message)
@@ -80,6 +80,8 @@ class ApplicationController < ActionController::API
     return notices
   end
 
+  # This methods will generate custom output of json response
+
   def gen_users
     users = []
     @users.each do |user|
@@ -94,8 +96,8 @@ class ApplicationController < ActionController::API
     return users
   end
 
-  def gen_notices(usr)
-    usr.notices do |notice|
+  def gen_notices(user)
+    user.notices do |notice|
       {
         id: notice.id,
         title: notice.title,
