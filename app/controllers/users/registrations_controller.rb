@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     if current_user
-    # if the role of the current login user is admin then only create a user
+    # only admins can create new user
       if current_user.role.name == 'admin'
         if check_user_params
           build_resource(sign_up_params)
@@ -14,7 +14,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
           yield resource if block_given?
           if resource.persisted?
             if resource.active_for_authentication?
+
+              # This will send Mail to the New User Created by admin
               UserMailer.new_registration(resource).deliver_later
+
               set_flash_message! :notice, :signed_up
               sign_up(resource_name, resource)
               respond_with resource, location: after_sign_up_path_for(resource)
@@ -60,7 +63,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # This method will called if the user registration is failed
   def register_failed
-    handle_error(resource.errors.messages)
+    handle_error(resource.errors.messages) if resource
+    handle_error("You're not authorised for this action")
   end
 
   # Check for user params
