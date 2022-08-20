@@ -5,9 +5,9 @@
 ## Roles
 
 ```
-> Admin : id: 1
-> Teacher : id: 2
-> Student: id: 3
+Admin   : id: 1
+Teacher : id: 2
+Student : id: 3
 ```
 
 ## Documentation
@@ -17,8 +17,8 @@
 # API Information
 
 ```
-> Created By: Shobhit Jain
-> Technology Used: Ruby on Rails [6.1.1]
-> Database: MySQL
-> Email Automation: StudentNoticeAPI@gmail.com
+Created By: Shobhit Jain
+Technology Used: Ruby on Rails [6.1.1]
+Database: MySQL
+Email Automation: StudentNoticeAPI@gmail.com
 ```
