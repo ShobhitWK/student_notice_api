@@ -65,6 +65,12 @@ class ApplicationController < ActionController::API
     current_user.role.name == "teacher"
   end
 
+  # checks
+
+  def check_user_params
+    params[:user].present?
+  end
+
   private
 
   def show_all_notices

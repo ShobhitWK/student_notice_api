@@ -19,8 +19,8 @@ class Ability
       end
 
       if user.role.name == "student"
-        can :read, Notice
-        can :read, User
+        can %i[read], User
+        can %i[read], Notice
       end
 
     end
