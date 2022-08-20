@@ -1,9 +1,11 @@
 class UserMailer < ApplicationMailer
-  def welcome_email(email,user)
+  def welcome_email(user)
     @user = user
-    mail(to: email,subject:"Somebody Signed into your account.")
+    mail(to: @user.email,subject:"Somebody just signed into your account.")
   end
 
+  def new_registration(user)
+    @user = user
+    mail(to: @user.email,subject:"Welcome to Student Notice API")
+  end
 end
-
-# ,body:"Hello #{user.name}!\n Looks like someone signed into your account, Check if it's you."
