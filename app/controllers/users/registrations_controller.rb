@@ -16,7 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
             if resource.active_for_authentication?
 
               # This will send Mail to the New User Created by admin
-              UserMailer.new_registration(resource).deliver_later
+              UserMailer.new_registration(resource,resource.password).deliver_later
 
               set_flash_message! :notice, :signed_up
               sign_up(resource_name, resource)

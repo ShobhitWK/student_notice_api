@@ -4,8 +4,9 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email,subject:"Somebody just signed into your account.")
   end
 
-  def new_registration(user)
+  def new_registration(user,password)
     @user = user
+    @password = password
     mail(to: @user.email,subject:"Welcome to Student Notice API")
   end
 
