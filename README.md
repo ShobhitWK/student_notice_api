@@ -1,4 +1,4 @@
-# Student Notice API
+# Student Notice API [Under construction]
 
 > API for creating and updating student notices with many features such as user authentication and authorisation using popular rails gems such as Devise, CanCanCan, Devise JWT, and others...
 
@@ -23,3 +23,5 @@ Technology Used: Ruby on Rails [6.1.1]
 Database: MySQL
 Email Automation: StudentNoticeAPI@gmail.com
 ```
+
+### API will be deployed live soon after some major updates
