@@ -63,8 +63,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # This method will called if the user registration is failed
   def register_failed
-    handle_error(resource.errors.messages) if resource
-    handle_error("You're not authorised for this action")
+    handle_error(resource.errors.messages) #if resource
+    # handle_error("You're not authorised for this action")
   end
 
   # Check for user params
