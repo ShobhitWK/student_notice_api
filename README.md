@@ -12,7 +12,7 @@ Student : id: 3
 
 ## Documentation
 
-> https://webkorps.stoplight.io/student-notice-api
+> https://webkorps.stoplight.io/docs/student-notices-api/
 
 # API Information
 
