@@ -1,24 +1,20 @@
-# README
+# Student Notice API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> API to create and update notices for students
 
-Things you may want to cover:
+## Roles
 
-* Ruby version
+> Admin : id: 1
+> Teacher : id: 2
+> Student: id: 3
 
-* System dependencies
+## Documentation
 
-* Configuration
+> https://webkorps.stoplight.io/student-notice-api
 
-* Database creation
+# API Information
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+> Created By: Shobhit Jain
+> Technology Used: Ruby on Rails [6.1.1]
+> Database: MySQL
+> Email Automation: StudentNoticeAPI@gmail.com
