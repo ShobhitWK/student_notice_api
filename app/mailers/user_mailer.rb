@@ -8,4 +8,12 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email,subject:"Welcome to Student Notice API")
   end
+
+  def new_notice(student,notice)
+
+    @notice = notice
+    @student = student
+    mail(to: @student.email,subject:"New Notice from #{@notice.user.name}")
+
+  end
 end

@@ -11,7 +11,7 @@ class Users::UsersController < ApplicationController
 
   def show
     return render json: { user: user_info } if able_to_show
-    handle_error 'This User Not Authorised !'
+    handle_error 'Can\'t view this user!'
   end
 
   def update

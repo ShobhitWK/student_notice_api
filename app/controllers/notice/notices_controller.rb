@@ -18,7 +18,13 @@ class Notice::NoticesController < ApplicationController
     @notice = Notice.new(notice_params)
     @notice.user = current_user
     if @notice.save
-      render json: { message: "Notice was created sucessfully!" , notice: show_notice}
+      @students = User.where(role_id: 3).all
+
+      @students.each do |student|
+        UserMailer.new_notice(student,@notice).deliver_later
+      end
+      
+      render json: { message: "Notice was created sucessfully and students has been alerted!" , notice: show_notice}
     else
       handle_error @notice.errors
     end

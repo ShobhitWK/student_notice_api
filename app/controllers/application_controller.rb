@@ -94,6 +94,7 @@ class ApplicationController < ActionController::API
         id: user.id,
         user_name: user.name,
         user_role: user.role.name,
+        email: user.email,
         created_at: user.created_at,
         updated_at: user.updated_at
       }
