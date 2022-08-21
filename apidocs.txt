@@ -1,0 +1,622 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 62rs8g14gheiu
+info:
+  title: Student Notice Api
+  version: '1.0'
+  summary: This API is designed for students to receive notices from the API as well as emails created by administrators and teachers.
+  description: This API is designed for students to receive notices from the API as well as emails created by administrators and teachers.
+  contact:
+    name: Shobhit Jain
+    url: contact@shobhitjain.live
+    email: shobhit@webkops.com
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /users/sign_in:
+    post:
+      summary: User Signin
+      operationId: users/sign_in
+      responses: {}
+      parameters: []
+      description: After SignIn user will get a JWT token in the Header copy that and use it for further operations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  required:
+                    - email
+                    - password
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+              required:
+                - user
+            examples:
+              signin-example:
+                value:
+                  user:
+                    email: user@gmail.com
+                    password: '123456'
+  /users/:
+    post:
+      summary: Create new user (Admin)
+      operationId: users/sign_up
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        Only Admins can create a new account.
+        <br><br>
+        Roles:
+        <br>
+        ID:1 - ADMIN <br>
+        ID:2 - TEACHER <br>
+        ID:3 - STUDENT <br>
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated when user sign up
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  required:
+                    - email
+                    - password
+                    - name
+                    - role_id
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    name:
+                      type: string
+                    role_id:
+                      type: integer
+              required:
+                - user
+            examples:
+              example-1:
+                value:
+                  user:
+                    email: example@gmail.com
+                    password: password123
+                    name: John Doe
+                    role_id: 1
+        description: User will get email after the admin creates the account.
+      x-internal: false
+    parameters: []
+    get:
+      summary: View all users
+      operationId: get-users
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        View User Information
+
+        Admin: Can view all
+        Teacher: Can view all students
+        Student: Can view admin and teacher for notices
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated when user sign up
+          required: true
+  '/users/{:id}':
+    parameters:
+      - schema:
+          type: integer
+        name: ':id'
+        in: path
+        required: true
+        description: user id
+    get:
+      summary: View User
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      operationId: 'get-users-:id'
+      description: |-
+        View User Information and Notices
+
+        Admin: Can view all
+        Teacher: Can view all students
+        Student: Can view admin and teacher for notices
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated at the time of sign in
+          required: true
+    patch:
+      summary: Edit User (Admin)
+      operationId: 'patch-users-:id'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: Only admin can perform this action.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated at the time of sign in
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  user:
+                    name: edited name
+                    email: newemail@gmail.com
+                    password: newpass
+                    role_id: 1
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    role_id:
+                      type: integer
+              required:
+                - user
+            examples:
+              example-1:
+                value:
+                  user:
+                    name: edited name
+                    email: new_email@gmail.com
+                    password: new password
+                    role_id: 2
+    delete:
+      summary: Delete User (Admin)
+      operationId: 'delete-users-:id'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      description: Only Admin can perform this action.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated at the time of sign in
+          required: true
+  /users/sign_out:
+    delete:
+      summary: User Signout
+      operationId: delete-users-sign_out
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: User SignOut
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: JWT token generated at the time of sign in
+  /notices/:
+    get:
+      summary: View notices
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: get-notices
+      description: 'Teacher, Admin, Students Can View all Notices'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          required: true
+          description: JWT token generated when user sign up
+    post:
+      summary: Create new Notice (Teacher/Admin)
+      operationId: post-notices
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        Only Teachers and Admins can post new notices.
+        <br>
+        After a notice creation every student will get a mail of the notice.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated when user sign up
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notice:
+                  type: object
+                  required:
+                    - title
+                    - description
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+              required:
+                - notice
+            examples:
+              example-1:
+                value:
+                  notice:
+                    title: snotice title
+                    description: notice description
+  '/notices/{:id}':
+    parameters:
+      - schema:
+          type: string
+        name: ':id'
+        in: path
+        required: true
+        description: id of a notice
+    get:
+      summary: View Notice
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+        '500':
+          description: Internal Server Error
+      operationId: 'get-notices-:id'
+      description: |-
+        View User Notices
+
+        Student can view admins and teachers notices
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated at the time of sign in
+          required: true
+    patch:
+      summary: Edit a Notice (Teacher/Admin)
+      operationId: 'patch-notices-:id'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        Edit a Notice (Only Teachers and Admins)
+        Teacher - Can only edit own notices
+        Admin - Can edit any notice
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          name: Authorization
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notice:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+              required:
+                - notice
+            examples:
+              example-1:
+                value:
+                  notice:
+                    title: edited title
+                    description: edtied description
+    delete:
+      summary: Delete a Notice (Teacher/Admin)
+      operationId: 'delete-notices-:id'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          name: Authorization
+          required: true
+      description: |-
+        Only Teacher and Admins can perform this action
+
+        Teacher - Can only delete own notices
+        Admin - Can delete any notice
+  /roles:
+    get:
+      summary: View all Roles (Admin)
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: get-roles
+      description: Admin only action
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          name: Authorization
+          required: true
+    post:
+      summary: Create new Role (Admin)
+      operationId: post-roles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                required:
+                  - role
+              examples:
+                example-1:
+                  value:
+                    role:
+                      name: newrole
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: object
+                    required:
+                      - name
+                    properties:
+                      name:
+                        type: string
+                required:
+                  - role
+              examples:
+                example-1:
+                  value:
+                    role:
+                      name: worker
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: Only Admin can create new role
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: JWT token generated at the time of sign in
+          required: true
+  '/roles/{:id}':
+    parameters:
+      - schema:
+          type: string
+        name: ':id'
+        in: path
+        required: true
+    get:
+      summary: View a Role (Admin)
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: 'get-roles-:id'
+      description: Only admin can view Roles
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          required: true
+          name: Authorization
+    patch:
+      summary: Edit a Role (Admin)
+      operationId: 'patch-roles-:id'
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          required: true
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    name:
+                      type: string
+              required:
+                - role
+            examples:
+              example-1:
+                value:
+                  role:
+                    name: edited role
+      description: Only Admins can Edit Roles
+    delete:
+      summary: Delete a role (Admin)
+      operationId: 'delete-roles-:id'
+      responses:
+        '200':
+          description: OK
+        '304':
+          description: Not Modified
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          required: true
+          name: Authorization
+      description: Only Admins can Delete Roles
+components:
+  schemas:
+    Users:
+      title: Users
+      x-stoplight:
+        id: b6jrfyz44eoao
+      type: object
+      examples:
+        - id: 0
+          name: string
+          email: string
+          password: string
+          role_id: 0
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role_id:
+          type: integer
+    Roles:
+      title: Roles
+      x-stoplight:
+        id: wuee5ih03d6zg
+      type: object
+      examples:
+        - id: 0
+          name: string
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Notices:
+      title: Notices
+      x-stoplight:
+        id: euncks9xvjq72
+      type: object
+      examples:
+        - id: 0
+          title: string
+          description: string
+          user_id: 0
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: integer
+  securitySchemes: {}
+x-internal: false

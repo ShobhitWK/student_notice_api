@@ -1,5 +1,5 @@
 class Users::UsersController < ApplicationController
-  # load_and_authorize_resource
+  load_and_authorize_resource
   before_action :get_user_data, except: %i[index]
 
   def index
@@ -15,14 +15,10 @@ class Users::UsersController < ApplicationController
   end
 
   def update
-    if current_user.role.name == "admin"
-      if @user.update(user_params)
-        render json: { message: 'user updated succesfully', user: user_info }
-      else
-        handle_error @user.errors.messages
-      end
+    if @user.update(user_params)
+      render json: { message: 'user updated succesfully', user: user_info }
     else
-      raise CanCan::AccessDenied
+      handle_error @user.errors.messages
     end
   end
 
@@ -35,14 +31,10 @@ class Users::UsersController < ApplicationController
   end
 
   def update_role
-    if current_user.role.name == "admin"
-      if @user.update(role_params)
-        success_response('Role updated successfully')
-      else
-        faliure_response('Role is not updated')
-      end
+    if @user.update(role_params)
+      success_response('Role updated successfully')
     else
-      raise CanCan::AccessDenied
+      faliure_response('Role is not updated')
     end
   end
 
