@@ -5,10 +5,17 @@ info:
   title: Student Notice Api
   version: '1.0'
   summary: This API is designed for students to receive notices from the API as well as emails created by administrators and teachers.
-  description: This API is designed for students to receive notices from the API as well as emails created by administrators and teachers.
+  description: |-
+    This API is designed for students to receive notices from the API as well as emails created by administrators and teachers.
+
+    [Github Repository Link](https://github.com/shobhitwk/student_notice_api)
+    ---
+    [Developer: Shobhit Jain](https://www.github.com/shobhitwk)
+    ---
+    Technologies Used: Ruby on rails, MySQL
   contact:
     name: Shobhit Jain
-    url: contact@shobhitjain.live
+    url: studentnoticeapi@gmail.com
     email: shobhit@webkops.com
 servers:
   - url: 'http://localhost:3000'
@@ -258,7 +265,7 @@ paths:
           required: true
           description: JWT token generated when user sign up
     post:
-      summary: Create new Notice (Teacher/Admin)
+      summary: Update a notice
       operationId: post-notices
       responses:
         '200':
@@ -562,6 +569,26 @@ paths:
           required: true
           name: Authorization
       description: Only Admins can Delete Roles
+  /profile:
+    get:
+      summary: View Current User
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: get-profile
+      description: User must be signed in for this action
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: JWT token generated at the time of sign in
+          required: true
+          name: Authorization
 components:
   schemas:
     Users:
