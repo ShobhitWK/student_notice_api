@@ -53,7 +53,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # This method will called if the user registration is sucessfull
   def register_success
-    render json: { "User Created" => resource_generate(resource) }
+    render json: { "User Created! The details have been sent to the user" => resource_generate(resource) } status: :created
   end
 
   # Failed responses
